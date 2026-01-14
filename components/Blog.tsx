@@ -33,7 +33,7 @@ export async function Blog() {
 
             <div className="max-w-[1400px] mx-auto px-6 relative z-10">
                 <div className="text-center mb-20">
-                    <h2 className="text-5xl md:text-7xl font-black inline-block relative text-white tracking-tighter">
+                    <h2 className="text-5xl md:text-6xl font-black inline-block relative text-white tracking-tighter">
                         Automotive <span className="text-white">Blog</span>
                         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-[#F97316] rounded-full shadow-[0_0_15px_#F97316]" />
                     </h2>

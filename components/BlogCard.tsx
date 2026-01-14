@@ -20,9 +20,9 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.005 }}
-                className="group relative bg-[#020617] border-2 border-blue-600/50 overflow-hidden rounded-[2rem] shadow-[0_0_50px_-10px_rgba(37,99,235,0.4)] transition-all duration-500 flex flex-col h-full"
+                className="group relative bg-[#020617] border-2 border-blue-600/50 overflow-hidden rounded-[2rem] shadow-[0_0_50px_-10px_rgba(37,99,235,0.4)] transition-all duration-500 flex flex-col h-[850px]"
             >
-                <div className="relative h-[45%] overflow-hidden border-b border-white/5">
+                <div className="relative h-[40%] overflow-hidden border-b border-white/5">
                     <motion.img
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.6 }}
@@ -30,11 +30,6 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                         alt={post.title}
                         className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-6 left-6 z-20">
-                        <span className="px-4 py-1.5 bg-blue-600/90 text-white text-[10px] font-black tracking-[0.2em] uppercase rounded-md backdrop-blur-md">
-                            FEATURED
-                        </span>
-                    </div>
                 </div>
 
                 <div className="p-8 flex flex-col justify-between flex-grow">
@@ -42,7 +37,7 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                         <h3 className="text-3xl md:text-4xl font-black mb-4 leading-tight text-white group-hover:text-blue-400 transition-colors duration-300">
                             {post.title}
                         </h3>
-                        <p className="text-gray-400 text-base line-clamp-3 font-medium leading-relaxed">    
+                        <p className="text-gray-400 text-base line-clamp-3 font-medium leading-relaxed">
                             {post.excerpt || post.description}
                         </p>
                     </div>
@@ -60,9 +55,9 @@ export function BlogCard({ post, featured }: BlogCardProps) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             whileHover={{ x: 5 }}
-            className="group flex flex-col bg-[#020617] border border-white/10 overflow-hidden rounded-2xl hover:border-blue-500/40 transition-all duration-500 "
+            className="group flex flex-col bg-[#020617] border border-white/10 overflow-hidden rounded-2xl hover:border-blue-500/40 transition-all duration-500 h-[260px]"
         >
-            <div className="relative h-[45%] overflow-hidden border-b border-white/5">
+            <div className="relative h-[60%] overflow-hidden border-b border-white/5">
                 <motion.img
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.6 }}
