@@ -39,16 +39,16 @@ export async function Blog() {
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 min-h-[400px]">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                     {/* Featured Post - Takes 2 columns */}
-                    <div className="lg:col-span-2 h-full">
+                    <div className="lg:col-span-2">
                         {featuredPost && (
                             <BlogCard post={featuredPost} featured={true} />
                         )}
                     </div>
 
                     {/* Sidebar / List - Takes 1 column */}
-                    <div className="flex flex-col justify-start h-full gap-8">
+                    <div className="flex flex-col justify-start gap-8">
                         {otherPosts.slice(0, 3).map((post: any) => (
                             <BlogCard key={post._id || post.title} post={post} />
                         ))}
@@ -58,4 +58,3 @@ export async function Blog() {
         </section>
     );
 }
-
