@@ -1,7 +1,7 @@
 import { client } from "@/sanity/lib/client";
 import { BlogContent } from "./BlogContent";
 
-const query = `*[_type == "post"] | order(publishedAt desc) {
+const query = `*[_type == "post"] | order(_createdAt desc) {
   _id,
   title,
   excerpt,
