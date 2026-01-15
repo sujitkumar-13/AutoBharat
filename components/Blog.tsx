@@ -1,8 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import { BlogContent } from "./BlogContent";
 
-export const revalidate = 60; // Revalidate every minute
-
 const query = `*[_type == "post"] | order(featured desc, publishedAt desc) {
   _id,
   title,
