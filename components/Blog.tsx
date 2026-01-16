@@ -5,6 +5,7 @@ const query = `*[_type == "post"] | order(_createdAt desc) {
   _id,
   title,
   excerpt,
+  body,
   featured,
   slug,
   mainImage,

@@ -16,7 +16,20 @@ export function BlogCard({ post, featured }: BlogCardProps) {
 
     const slug = post.slug?.current || '';
 
+    const toPlainText = (blocks: any[] = []) => {
+        return blocks
+            .map(block => {
+                if (block._type !== 'block' || !block.children) {
+                    return ''
+                }
+                return block.children.map((child: any) => child.text).join('')
+            })
+            .join(' ')
+    };
+
     if (featured) {
+        const bodyText = toPlainText(post.body);
+
         return (
             <Link href={`/blog/${slug}`} className="block">
                 <motion.div
@@ -37,12 +50,16 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                     </div>
 
                     <div className="p-4 md:p-8 flex flex-col justify-between flex-grow gap-2 md:gap-0">
-                        <div>
+                        <div className="space-y-2 md:space-y-4">
                             <h3 className="text-base md:text-4xl font-bold md:font-black mb-0 md:mb-4 leading-tight text-white group-hover:text-blue-400 transition-colors duration-300 line-clamp-1 md:line-clamp-none">
                                 {post.title}
                             </h3>
-                            <p className="text-gray-500 md:text-gray-400 text-[10px] md:text-base mt-1 md:mt-0 line-clamp-1 md:line-clamp-4 font-medium leading-relaxed">
+                            <p className="text-gray-500 md:text-gray-400 text-[10px] md:text-lg line-clamp-1 md:line-clamp-2 font-semibold md:font-bold leading-relaxed">
                                 {post.excerpt || post.description}
+                            </p>
+                            {/* Body Preview - Desktop Only */}
+                            <p className="hidden md:line-clamp-12 text-gray-400 text-base leading-relaxed font-medium">
+                                {bodyText}
                             </p>
                         </div>
                         <div className="mt-auto md:mt-6">
