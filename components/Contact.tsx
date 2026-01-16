@@ -42,11 +42,32 @@ export function Contact() {
         setErrors({});
         setIsSubmitting(true);
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+            if (response.ok) {
+                setIsSubmitted(true);
+                setFormData({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    message: ''
+                });
+            } else {
+                const data = await response.json();
+                setErrors({ submit: data.error || 'Failed to send message. Please try again later.' });
+            }
+        } catch (error) {
+            setErrors({ submit: 'An error occurred. Please try again later.' });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -250,6 +271,18 @@ export function Contact() {
                                             )}
                                         </AnimatePresence>
                                     </div>
+                                    <AnimatePresence>
+                                        {errors.submit && (
+                                            <motion.p
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: "auto" }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="text-red-500 text-sm mb-4 font-medium text-center"
+                                            >
+                                                {errors.submit}
+                                            </motion.p>
+                                        )}
+                                    </AnimatePresence>
                                     <motion.button
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
