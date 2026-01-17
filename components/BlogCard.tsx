@@ -1,8 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { urlFor } from '@/sanity/lib/image';
 import Link from 'next/link';
+import { MouseEvent } from 'react';
 
 interface BlogCardProps {
     post: any;
@@ -10,6 +11,31 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post, featured }: BlogCardProps) {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [7, -7]), { stiffness: 200, damping: 25 });
+    const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-7, 7]), { stiffness: 200, damping: 25 });
+
+    function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseXRel = event.clientX - rect.left;
+        const mouseYRel = event.clientY - rect.top;
+
+        const xPct = mouseXRel / width - 0.5;
+        const yPct = mouseYRel / height - 0.5;
+
+        x.set(xPct);
+        y.set(yPct);
+    }
+
+    function handleMouseLeave() {
+        x.set(0);
+        y.set(0);
+    }
+
     const imageUrl = post.mainImage?.asset?._ref
         ? urlFor(post.mainImage).url()
         : (post.imageUrl || "https://via.placeholder.com/600x400");
@@ -31,15 +57,21 @@ export function BlogCard({ post, featured }: BlogCardProps) {
         const bodyText = toPlainText(post.body);
 
         return (
-            <Link href={`/blog/${slug}`} className="block">
+            <Link href={`/blog/${slug}`} className="block perspective-1000">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.005 }}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                        rotateX,
+                        rotateY,
+                        transformStyle: "preserve-3d",
+                    }}
                     className="group relative bg-[#020617] border border-white/10 md:border-2 md:border-blue-600/50 overflow-hidden rounded-2xl md:rounded-[2rem] shadow-[0_0_50px_-10px_rgba(37,99,235,0.4)] transition-all duration-500 flex flex-col min-h-[220px] md:h-[850px]"
                 >
-                    <div className="relative h-[140px] md:h-[40%] overflow-hidden border-b border-white/5 ">
+                    <div className="relative h-[140px] md:h-[40%] overflow-hidden border-b border-white/5 " style={{ transform: "translateZ(30px)" }}>
                         <motion.img
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.6 }}
@@ -49,7 +81,7 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                         />
                     </div>
 
-                    <div className="p-4 md:p-8 flex flex-col justify-between flex-grow gap-2 md:gap-0">
+                    <div className="p-4 md:p-8 flex flex-col justify-between flex-grow gap-2 md:gap-0" style={{ transform: "translateZ(20px)" }}>
                         <div className="space-y-2 md:space-y-4">
                             <h3 className="text-base md:text-4xl font-bold md:font-black mb-0 md:mb-4 leading-tight text-white group-hover:text-blue-400 transition-colors duration-300 line-clamp-1 md:line-clamp-none">
                                 {post.title}
@@ -63,9 +95,12 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                             </p>
                         </div>
                         <div className="mt-auto md:mt-6">
-                            <span className="hidden md:inline-block bg-red-600 group-hover:bg-red-700 text-white px-8 py-3.5 rounded-xl font-black text-sm transition-all duration-300 transform active:scale-95 shadow-lg shadow-red-600/20">
+                            <motion.span
+                                whileTap={{ scale: 0.95 }}
+                                className="hidden md:inline-block bg-red-600 group-hover:bg-red-700 text-white px-8 py-3.5 rounded-xl font-black text-sm transition-all duration-300 shadow-lg shadow-red-600/20"
+                            >
                                 Read More
-                            </span>
+                            </motion.span>
                             <span className="md:hidden text-red-500 font-bold text-sm tracking-wider group-hover:text-red-400 transition-colors">
                                 Read More
                             </span>
@@ -82,10 +117,16 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ x: 5 }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                    rotateX,
+                    rotateY,
+                    transformStyle: "preserve-3d",
+                }}
                 className="group flex flex-col bg-[#020617] border border-white/10 overflow-hidden rounded-2xl hover:border-blue-500/40 transition-all duration-500 min-h-[220px] md:h-[260px]"
             >
-                <div className="relative h-[140px] md:h-[60%] overflow-hidden border-b border-white/5">
+                <div className="relative h-[140px] md:h-[60%] overflow-hidden border-b border-white/5" style={{ transform: "translateZ(20px)" }}>
                     <motion.img
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.6 }}
@@ -94,7 +135,7 @@ export function BlogCard({ post, featured }: BlogCardProps) {
                         className="w-full h-full object-cover"
                     />
                 </div>
-                <div className="p-4 flex flex-col justify-between flex-grow gap-2">
+                <div className="p-4 flex flex-col justify-between flex-grow gap-2" style={{ transform: "translateZ(10px)" }}>
                     <div>
                         <h4 className="text-base md:text-lg font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1 leading-snug">
                             {post.title}

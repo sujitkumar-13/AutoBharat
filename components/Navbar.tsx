@@ -70,7 +70,7 @@ export function Navbar() {
             <motion.nav
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
-                className={`fixed w-full z-40 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-lg border-b border-white/10 py-3' : 'bg-transparent py-5'
+                className={`fixed w-full z-40 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-lg  py-3' : 'bg-transparent py-5'
                     }`}
             >
                 <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
